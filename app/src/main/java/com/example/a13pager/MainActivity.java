@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // 1) Geocoding
-                String geocodingKey = "a17e8a9e138c4a7858e74396cc31dc99";
+                String geocodingKey = "your_real_key_here";
                 double[] latLng = geocodeZipCode(zipCode, geocodingKey);
                 if (latLng == null) {
                     Log.w("fetchWeather", "Geocode failed for zip=" + zipCode);
@@ -150,8 +150,8 @@ public class MainActivity extends AppCompatActivity {
                 String lon = String.valueOf(latLng[1]);
                 Log.i("GeoOK", "zip=" + zipCode + " -> lat=" + lat + ", lon=" + lon);
 
-                // 2) One Call 3.0（units=metric；可选 exclude 降负载）
-                String owmKey = "a17e8a9e138c4a7858e74396cc31dc99"; //
+                // 2) One Call 3.0
+                String owmKey = "your_real_key_here"; //
                 URL url = new URL(
                         "https://api.openweathermap.org/data/3.0/onecall"
                                 + "?lat=" + lat
@@ -180,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                // 3) 解析 JSON
                 JSONObject jsonObject = new JSONObject(response1);
 
                 MyModel model = cv_pages[index];
@@ -190,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 //model.setCity(cityName);
 
                 JSONObject current = jsonObject.getJSONObject("current");
-                temp = current.getDouble("temp"); // 已是摄氏度（units=metric）
+                temp = current.getDouble("temp"); //（units=metric）
                 model.setTemp(temp);
 
                 JSONArray weatherArray = current.getJSONArray("weather");
@@ -229,7 +228,6 @@ public class MainActivity extends AppCompatActivity {
                     model.setTusIcon(getWeatherIcon(t));
                 }
 
-                // 4) 刷新 UI（只刷新当前项）
                 runOnUiThread(() -> adapter.notifyItemChanged(index));
 
             } catch (Exception e) {
